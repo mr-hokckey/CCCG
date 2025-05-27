@@ -1,3 +1,4 @@
+-- Deck class is simply implemented as a list of card names.
 
 DeckClass = {}
 

@@ -1,21 +1,25 @@
 
+require "vector"
+require "utils"
+
 CardClass = {}
 
-function CardClass:new(owner, name)
+function CardClass:new(owner, location, slot, name)
     local card = {}
-    local metadata = {__index = card}
+    local metadata = {__index = CardClass}
     setmetatable(card, metadata)
 
-    card.position = Vector()
     card.owner = owner
-    card.location = 0
+    card.location = location
+    card.scale = (string.find(location, "LOCATION_") and SMALL_CARD_SCALE) or 1
+    card.position = Vector(POSITIONS[location][owner][slot].x, POSITIONS[location][owner][slot].y) - (Vector(CARD_WIDTH/2, CARD_HEIGHT/2) * card.scale)
     card.isFaceUp = false
     -- card.isRevealed = false
 
     card.name = name
     card.power = 0
     card.cost = 0
-    card.text = nil
+    card.text = "Placeholder"
     card.sprite = nil
     card.ability = nil
 
@@ -29,7 +33,46 @@ function CardClass:flip()
     self.isFaceUp = not self.isFaceUp
 end
 
--- Power and cost numbers will have different colors if they're affected by modifiers!
+-- -- Power and cost numbers will have different colors if they're affected by modifiers!
+-- function CardClass:draw()
+--     -- love.graphics.setColor(0.82, 0.41, 0.12, 1)
+--     love.graphics.setColor(0, 0, 0, 1)
+--     love.graphics.rectangle("line", self.position.x, self.position.y, CARD_WIDTH * self.scale, CARD_HEIGHT * self.scale)
+--     love.graphics.setColor(1, 1, 1, 1)
+--     love.graphics.rectangle("fill", self.position.x, self.position.y, CARD_WIDTH * self.scale, CARD_HEIGHT * self.scale)
+--     love.graphics.setColor(0, 0, 0, 1)
+--     love.graphics.printf(self.cost, self.position.x, self.position.y, CARD_WIDTH * self.scale / 4, "center", 0, self.scale, self.scale)
+--     love.graphics.printf(self.power, self.position.x + CARD_WIDTH * self.scale * 3 / 4, self.position.y, CARD_WIDTH * self.scale / 4, "center", 0, self.scale, self.scale)
+--     love.graphics.printf(self.name, self.position.x, self.position.y + CARD_HEIGHT * self.scale * 3 / 4, CARD_WIDTH * self.scale, "center", 0, self.scale, self.scale)
+--     -- love.graphics.printf(self.text, self.position.x, self.position.y, CARD_WIDTH)
+-- end
+
 function CardClass:draw()
-    
+    -- love.graphics.setColor(0.82, 0.41, 0.12, 1)
+
+    love.graphics.push()
+
+    love.graphics.translate(self.position.x, self.position.y)
+    love.graphics.scale(self.scale, self.scale)
+
+    love.graphics.setColor(0, 0, 0, 1)
+    love.graphics.rectangle("line", 0, 0, CARD_WIDTH, CARD_HEIGHT)
+    love.graphics.setColor(1, 0.97, 0.86, 1)
+    love.graphics.rectangle("fill", 0, 0, CARD_WIDTH, CARD_HEIGHT)
+    love.graphics.setColor(0, 0, 0, 1)
+    love.graphics.printf(self.cost, 0, 0, CARD_WIDTH / 4, "center", 0)
+    love.graphics.printf(self.power, CARD_WIDTH * 3 / 4, 0, CARD_WIDTH / 4, "center", 0)
+    love.graphics.printf(self.name, 0, CARD_HEIGHT * 3 / 4, CARD_WIDTH, "center", 0)
+
+    love.graphics.pop()
+end
+
+function CardClass:checkForMouseOver()
+    local isMouseOver = 
+        love.mouse.getX() > self.position.x and
+        love.mouse.getX() < self.position.x + self.size.x and
+        love.mouse.getY() > self.position.y and
+        love.mouse.getY() < self.position.y + self.size.y
+        
+    return isMouseOver
 end
