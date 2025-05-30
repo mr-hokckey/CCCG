@@ -33,23 +33,9 @@ function CardClass:flip()
     self.isFaceUp = not self.isFaceUp
 end
 
--- -- Power and cost numbers will have different colors if they're affected by modifiers!
--- function CardClass:draw()
---     -- love.graphics.setColor(0.82, 0.41, 0.12, 1)
---     love.graphics.setColor(0, 0, 0, 1)
---     love.graphics.rectangle("line", self.position.x, self.position.y, CARD_WIDTH * self.scale, CARD_HEIGHT * self.scale)
---     love.graphics.setColor(1, 1, 1, 1)
---     love.graphics.rectangle("fill", self.position.x, self.position.y, CARD_WIDTH * self.scale, CARD_HEIGHT * self.scale)
---     love.graphics.setColor(0, 0, 0, 1)
---     love.graphics.printf(self.cost, self.position.x, self.position.y, CARD_WIDTH * self.scale / 4, "center", 0, self.scale, self.scale)
---     love.graphics.printf(self.power, self.position.x + CARD_WIDTH * self.scale * 3 / 4, self.position.y, CARD_WIDTH * self.scale / 4, "center", 0, self.scale, self.scale)
---     love.graphics.printf(self.name, self.position.x, self.position.y + CARD_HEIGHT * self.scale * 3 / 4, CARD_WIDTH * self.scale, "center", 0, self.scale, self.scale)
---     -- love.graphics.printf(self.text, self.position.x, self.position.y, CARD_WIDTH)
--- end
-
+-- Power and cost numbers will have different colors if they're affected by modifiers!
+-- (MAY OR MAY NOT INPLEMENT THIS)
 function CardClass:draw()
-    -- love.graphics.setColor(0.82, 0.41, 0.12, 1)
-
     love.graphics.push()
 
     love.graphics.translate(self.position.x, self.position.y)
@@ -67,6 +53,8 @@ function CardClass:draw()
     love.graphics.pop()
 end
 
+
+-- used for grabbing
 function CardClass:checkForMouseOver()
     local isMouseOver = 
         love.mouse.getX() > self.position.x and

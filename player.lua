@@ -1,26 +1,44 @@
 
+require "utils"
+require "card"
+require "deck"
+
 PlayerClass = {}
 
-function PlayerClass:new(playerNo)
+function PlayerClass:new(playerNum, deck)
     local player = {}
-    local metadata = {__index = player}
+    local metadata = {__index = PlayerClass}
     setmetatable(player, metadata)
 
-    player.playerNo = playerNo
+    player.playerNum = playerNum
     player.points = 0
     player.mana = 0
 
-    player.deck = {}
+    player.deck = DeckClass:new(playerNum, deck)
     player.hand = {}
     player.discard = {}
 
     return player
 end
 
-function PlayerClass:getOpponent()
-    return 3 - self.playerNo
+function PlayerClass:draw()
+    for _, card in ipairs(self.hand) do
+        card:draw()
+    end
+end
+
+function PlayerClass:opponent()
+    return "P" .. 3 - self.playerNum
 end
 
 function PlayerClass:submitPlay()
+    
+end
+
+function PlayerClass:takeCard()
+    table.insert(self.hand, CardClass:new("P" .. self.playerNum, "HAND", #self.hand + 1, table.remove(self.deck.cards, 1)))
+end
+
+function PlayerClass:playCard(card, location)
     
 end

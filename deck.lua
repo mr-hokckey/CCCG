@@ -2,12 +2,12 @@
 
 DeckClass = {}
 
-function DeckClass:new(owner)
+function DeckClass:new(owner, cards)
     local deck = {}
-    local metadata = {__index = deck}
+    local metadata = {__index = DeckClass}
     setmetatable(deck, metadata)
 
-    deck.cards = {}
+    deck.cards = cards
     deck.owner = owner
 
     return deck
@@ -32,4 +32,8 @@ function DeckClass:checkLegal()
     end
     
     return true
+end
+
+function DeckClass:draw()
+    
 end

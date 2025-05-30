@@ -60,8 +60,8 @@ POSITIONS = {
         }
     },
     ["DECK"] = {
-        ["P1"] = {Vector(SCREEN_WIDTH - CARD_WIDTH/2, SCREEN_HEIGHT - CARD_HEIGHT/2)},
-        ["P2"] = {Vector()}
+        ["P1"] = { Vector(SCREEN_WIDTH - CARD_WIDTH/2, SCREEN_HEIGHT - CARD_HEIGHT/2) },
+        ["P2"] = { Vector(SCREEN_WIDTH - CARD_WIDTH/2, CARD_HEIGHT/2) }
     },
     ["HAND"] = {
         ["P1"] = {
@@ -74,17 +74,27 @@ POSITIONS = {
             Vector(SCREEN_WIDTH / 2 + CARD_WIDTH * 3, SCREEN_HEIGHT - CARD_HEIGHT / 2)
         },
         ["P2"] = {
-            Vector(),
-            Vector(),
-            Vector(),
-            Vector(),
-            Vector(),
-            Vector(),
-            Vector()
+            Vector(SCREEN_WIDTH / 2 - CARD_WIDTH * 3, CARD_HEIGHT / 2),
+            Vector(SCREEN_WIDTH / 2 - CARD_WIDTH * 2, CARD_HEIGHT / 2),
+            Vector(SCREEN_WIDTH / 2 - CARD_WIDTH * 1, CARD_HEIGHT / 2),
+            Vector(SCREEN_WIDTH / 2 - CARD_WIDTH * 0, CARD_HEIGHT / 2),
+            Vector(SCREEN_WIDTH / 2 + CARD_WIDTH * 1, CARD_HEIGHT / 2),
+            Vector(SCREEN_WIDTH / 2 + CARD_WIDTH * 2, CARD_HEIGHT / 2),
+            Vector(SCREEN_WIDTH / 2 + CARD_WIDTH * 3, CARD_HEIGHT / 2)
         }
     },
     ["DISCARD"] = {
-        ["P1"] = {Vector(CARD_WIDTH/2, SCREEN_HEIGHT - CARD_HEIGHT/2)},
-        ["P2"] = {Vector()}
+        ["P1"] = { Vector(CARD_WIDTH/2, SCREEN_HEIGHT - CARD_HEIGHT/2) },
+        ["P2"] = { Vector(CARD_WIDTH/2, CARD_HEIGHT/2) }
     }
 }
+
+function opponent(str)
+    if str == "P1" then
+        return "P2"
+    elseif str == "P2" then
+        return "P1"
+    else
+        return "HUH"
+    end
+end
