@@ -21,6 +21,12 @@ function PlayerClass:new(playerNum, deck)
     return player
 end
 
+function PlayerClass:update()
+    for i, card in ipairs(self.hand) do
+        card.position = POSITIONS[card.location][card.owner][i] - Vector(CARD_WIDTH/2, CARD_HEIGHT/2) * card.scale
+    end
+end
+
 function PlayerClass:draw()
     for _, card in ipairs(self.hand) do
         card:draw()
@@ -35,10 +41,18 @@ function PlayerClass:submitPlay()
     
 end
 
+-- take a card from the top of the player's deck and place it in their hand.
+-- Unless the player has 7 cards in their hand. Return true or false.
 function PlayerClass:takeCard()
-    table.insert(self.hand, CardClass:new("P" .. self.playerNum, "HAND", #self.hand + 1, table.remove(self.deck.cards, 1)))
+    if #self.hand >= 7 then 
+        return false
+    end
+    
+    table.insert(self.hand, CardClass:new("P" .. self.playerNum, "HAND", table.remove(self.deck.cards, 1)))
+    return true
 end
 
-function PlayerClass:playCard(card, location)
-    
+function PlayerClass:playCard(i, location)
+    card = table.remove(self.hand, i)
+    location:insertCard(card)
 end

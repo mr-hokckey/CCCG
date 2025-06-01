@@ -43,10 +43,20 @@ function GameManagerClass:new(pointsToWin)
     gameManager.p1:takeCard()
     gameManager.p1:takeCard()
 
+    gameManager.p1:playCard(1, gameManager.locations["LOCATION_1"])
+    gameManager.p1:playCard(1, gameManager.locations["LOCATION_1"])
+    gameManager.p1:playCard(1, gameManager.locations["LOCATION_1"])
+    gameManager.p1:playCard(1, gameManager.locations["LOCATION_1"])
+
+
     gameManager.p2:takeCard()
     gameManager.p2:takeCard()
     gameManager.p2:takeCard()
 
+    gameManager.p1:update()
+    gameManager.p2:update()
+
+    gameManager.locations["LOCATION_1"]:update()
 
     return gameManager
 end

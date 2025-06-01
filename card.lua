@@ -4,7 +4,7 @@ require "utils"
 
 CardClass = {}
 
-function CardClass:new(owner, location, slot, name)
+function CardClass:new(owner, location, name)
     local card = {}
     local metadata = {__index = CardClass}
     setmetatable(card, metadata)
@@ -12,7 +12,7 @@ function CardClass:new(owner, location, slot, name)
     card.owner = owner
     card.location = location
     card.scale = (string.find(location, "LOCATION_") and SMALL_CARD_SCALE) or 1
-    card.position = Vector(POSITIONS[location][owner][slot].x, POSITIONS[location][owner][slot].y) - (Vector(CARD_WIDTH/2, CARD_HEIGHT/2) * card.scale)
+    card.position = Vector()
     card.isFaceUp = false
     -- card.isRevealed = false
 
