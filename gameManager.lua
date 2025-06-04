@@ -6,6 +6,7 @@ require "card"
 require "deck"
 require "location"
 require "player"
+require "grabber"
 
 GameManagerClass = {}
 
@@ -26,50 +27,54 @@ function GameManagerClass:new(pointsToWin)
     gameManager.pointsToWin = pointsToWin
     gameManager.turnNum = 1
 
-    gameManager.p1 = PlayerClass:new(1, P1_DECK)
-    gameManager.p2 = PlayerClass:new(2, P2_DECK)
+    gameManager.cardTables = {
+        ["LOCATION_1"] = {},
+        ["LOCATION_2"] = {},
+        ["LOCATION_3"] = {},
+        ["HAND_P1"] = {},
+        ["HAND_P2"] = {},
+        ["DISCARD_P1"] = {},
+        ["DISCARD_P2"] = {},
+    }
+    
+    gameManager.p1 = PlayerClass:new(1, P1_DECK, gameManager.cardTables["HAND_P1"], gameManager.cardTables["DISCARD_P1"])
+    gameManager.p2 = PlayerClass:new(2, P2_DECK, gameManager.cardTables["HAND_P2"], gameManager.cardTables["DISCARD_P2"])
 
     gameManager.locations = {
-        ["LOCATION_1"] = LocationClass:new(1),
-        ["LOCATION_2"] = LocationClass:new(2),
-        ["LOCATION_3"] = LocationClass:new(3)
+        LocationClass:new(1, gameManager.cardTables["LOCATION_1"]),
+        LocationClass:new(2, gameManager.cardTables["LOCATION_2"]),
+        LocationClass:new(3, gameManager.cardTables["LOCATION_3"])
     }
 
-    gameManager.p1:takeCard()
-    gameManager.p1:takeCard()
-    gameManager.p1:takeCard()
-    gameManager.p1:takeCard()
-    gameManager.p1:takeCard()
-    gameManager.p1:takeCard()
-    gameManager.p1:takeCard()
+    gameManager.grabber = GrabberClass:new(gameManager.cardTables)
 
-    gameManager.p1:playCard(1, gameManager.locations["LOCATION_1"])
-    gameManager.p1:playCard(1, gameManager.locations["LOCATION_1"])
-    gameManager.p1:playCard(1, gameManager.locations["LOCATION_1"])
-    gameManager.p1:playCard(1, gameManager.locations["LOCATION_1"])
-
+    gameManager.p1:takeCard()
+    gameManager.p1:takeCard()
+    gameManager.p1:takeCard()
+    gameManager.p1:takeCard()
 
     gameManager.p2:takeCard()
     gameManager.p2:takeCard()
     gameManager.p2:takeCard()
+    gameManager.p2:takeCard()
 
-    gameManager.p1:update()
-    gameManager.p2:update()
-
-    gameManager.locations["LOCATION_1"]:update()
+    gameManager.p1:repositionCards()
+    gameManager.p2:repositionCards()
 
     return gameManager
 end
 
 function GameManagerClass:update()
-    
+    self.grabber:update()
 end
 
 function GameManagerClass:draw()
     self.p1:draw()
     self.p2:draw()
 
-    self.locations["LOCATION_1"]:draw()
-    self.locations["LOCATION_2"]:draw()
-    self.locations["LOCATION_3"]:draw()
+    self.locations[1]:draw()
+    self.locations[2]:draw()
+    self.locations[3]:draw()
+
+    self.grabber:draw()
 end

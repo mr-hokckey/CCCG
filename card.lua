@@ -4,6 +4,12 @@ require "utils"
 
 CardClass = {}
 
+CARD_STATE = {
+    IDLE = 0,
+    SELECTED = 1,
+    GRABBED = 2
+}
+
 function CardClass:new(owner, location, name)
     local card = {}
     local metadata = {__index = CardClass}
@@ -11,10 +17,10 @@ function CardClass:new(owner, location, name)
 
     card.owner = owner
     card.location = location
-    card.scale = (string.find(location, "LOCATION_") and SMALL_CARD_SCALE) or 1
     card.position = Vector()
     card.isFaceUp = false
     -- card.isRevealed = false
+    card.state = CARD_STATE.IDLE
 
     card.name = name
     card.power = 0
@@ -24,6 +30,10 @@ function CardClass:new(owner, location, name)
     card.ability = nil
 
     return card
+end
+
+function CardClass:update()
+    self.state = CARD_STATE.IDLE
 end
 
 -- Function to flip cards face-up or face-down. 
@@ -39,8 +49,11 @@ function CardClass:draw()
     love.graphics.push()
 
     love.graphics.translate(self.position.x, self.position.y)
-    love.graphics.scale(self.scale, self.scale)
 
+    if self.state ~= CARD_STATE.IDLE then
+        love.graphics.setColor(0,0,0,1)
+        love.graphics.rectangle("fill", -4 * self.state, -4 * self.state, CARD_WIDTH, CARD_HEIGHT)
+    end
     love.graphics.setColor(0, 0, 0, 1)
     love.graphics.rectangle("line", 0, 0, CARD_WIDTH, CARD_HEIGHT)
     love.graphics.setColor(1, 0.97, 0.86, 1)
@@ -58,9 +71,9 @@ end
 function CardClass:checkForMouseOver()
     local isMouseOver = 
         love.mouse.getX() > self.position.x and
-        love.mouse.getX() < self.position.x + self.size.x and
+        love.mouse.getX() < self.position.x + CARD_WIDTH and
         love.mouse.getY() > self.position.y and
-        love.mouse.getY() < self.position.y + self.size.y
+        love.mouse.getY() < self.position.y + CARD_HEIGHT
         
     return isMouseOver
 end

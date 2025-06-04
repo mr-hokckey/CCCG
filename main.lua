@@ -13,6 +13,8 @@ function love.load()
     require "location"
     require "player"
 
+    love.window.setTitle("Mythomagic") -- A reference to the Percy Jackson series :)
+
     gameManager = GameManagerClass:new(25)
 
     -- cards = {}

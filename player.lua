@@ -5,7 +5,7 @@ require "deck"
 
 PlayerClass = {}
 
-function PlayerClass:new(playerNum, deck)
+function PlayerClass:new(playerNum, deck, hand, discard)
     local player = {}
     local metadata = {__index = PlayerClass}
     setmetatable(player, metadata)
@@ -15,21 +15,23 @@ function PlayerClass:new(playerNum, deck)
     player.mana = 0
 
     player.deck = DeckClass:new(playerNum, deck)
-    player.hand = {}
-    player.discard = {}
+    player.hand = hand
+    player.discard = discard
 
     return player
-end
-
-function PlayerClass:update()
-    for i, card in ipairs(self.hand) do
-        card.position = POSITIONS[card.location][card.owner][i] - Vector(CARD_WIDTH/2, CARD_HEIGHT/2) * card.scale
-    end
 end
 
 function PlayerClass:draw()
     for _, card in ipairs(self.hand) do
         card:draw()
+    end
+end
+
+
+
+function PlayerClass:repositionCards()
+    for i, card in ipairs(self.hand) do
+        card.position = POSITIONS[card.location][card.owner][i] - Vector(CARD_WIDTH/2, CARD_HEIGHT/2)
     end
 end
 
