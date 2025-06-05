@@ -1,15 +1,17 @@
 
 require "card"
 require "vector"
+require "location"
 
 GrabberClass = {}
 
-function GrabberClass:new(cardTables)
+function GrabberClass:new(cardTables, locations)
     local grabber = {}
     local metadata = {__index = GrabberClass}
     setmetatable(grabber, metadata)
 
     grabber.cardTables = cardTables
+    grabber.locations = locations
 
     grabber.selectedCard = nil
     grabber.grabbedCard = nil
@@ -67,6 +69,15 @@ function GrabberClass:grab()
 end
 
 function GrabberClass:release()
+    local dst = "FALSE"
+    for _, loc in ipairs(self.locations) do
+        dst = loc:checkForMouseOver()
+        if dst ~= "FALSE" then
+            loc:insertCard(self.grabbedCard)
+            loc:repositionCards()
+        end
+    end
+
     self.grabbedCard.state = CARD_STATE.IDLE
 
     self.grabbedCard = nil

@@ -1,7 +1,4 @@
 
-require "vector"
-require "utils"
-
 CardClass = {}
 
 CARD_STATE = {

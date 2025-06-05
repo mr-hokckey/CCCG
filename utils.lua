@@ -85,6 +85,21 @@ POSITIONS = {
     }
 }
 
+DROP_ZONES = {
+    ["LOCATION_1"] = {
+        Vector(SCREEN_WIDTH / 4 - CARD_WIDTH / 2, SCREEN_HEIGHT / 2 + CARD_HEIGHT/2 - CARD_HEIGHT*2),
+        Vector(SCREEN_WIDTH / 4 - CARD_WIDTH / 2 + CARD_WIDTH*2, SCREEN_HEIGHT / 2 + CARD_HEIGHT/2 + CARD_HEIGHT*2),
+    },
+    ["LOCATION_2"] = {
+        Vector(SCREEN_WIDTH / 2 - CARD_WIDTH / 2, SCREEN_HEIGHT / 2 + CARD_HEIGHT/2 - CARD_HEIGHT*2),
+        Vector(SCREEN_WIDTH / 2 - CARD_WIDTH / 2 + CARD_WIDTH*2, SCREEN_HEIGHT / 2 + CARD_HEIGHT/2 + CARD_HEIGHT*2),
+    },
+    ["LOCATION_3"] = {
+        Vector(SCREEN_WIDTH * 3 / 4 - CARD_WIDTH / 2, SCREEN_HEIGHT / 2 + CARD_HEIGHT/2 - CARD_HEIGHT*2),
+        Vector(SCREEN_WIDTH * 3 / 4 - CARD_WIDTH / 2 + CARD_WIDTH*2, SCREEN_HEIGHT / 2 + CARD_HEIGHT/2 + CARD_HEIGHT*2),
+    }
+}
+
 function opponent(str)
     if str == "P1" then
         return "P2"

@@ -1,12 +1,12 @@
 
-require "vector"
-require "utils"
+-- require "vector"
+-- require "utils"
 
-require "card"
-require "deck"
-require "location"
-require "player"
-require "grabber"
+-- require "card"
+-- require "deck"
+-- require "location"
+-- require "player"
+-- require "grabber"
 
 GameManagerClass = {}
 
@@ -41,12 +41,12 @@ function GameManagerClass:new(pointsToWin)
     gameManager.p2 = PlayerClass:new(2, P2_DECK, gameManager.cardTables["HAND_P2"], gameManager.cardTables["DISCARD_P2"])
 
     gameManager.locations = {
-        LocationClass:new(1, gameManager.cardTables["LOCATION_1"]),
-        LocationClass:new(2, gameManager.cardTables["LOCATION_2"]),
-        LocationClass:new(3, gameManager.cardTables["LOCATION_3"])
+        LocationClass:new("LOCATION_1", gameManager.cardTables["LOCATION_1"], POSITIONS["LOCATION_1"], DROP_ZONES["LOCATION_1"]),
+        LocationClass:new("LOCATION_2", gameManager.cardTables["LOCATION_2"], POSITIONS["LOCATION_2"], DROP_ZONES["LOCATION_2"]),
+        LocationClass:new("LOCATION_3", gameManager.cardTables["LOCATION_3"], POSITIONS["LOCATION_3"], DROP_ZONES["LOCATION_3"])
     }
 
-    gameManager.grabber = GrabberClass:new(gameManager.cardTables)
+    gameManager.grabber = GrabberClass:new(gameManager.cardTables, gameManager.locations)
 
     gameManager.p1:takeCard()
     gameManager.p1:takeCard()
@@ -60,6 +60,14 @@ function GameManagerClass:new(pointsToWin)
 
     gameManager.p1:repositionCards()
     gameManager.p2:repositionCards()
+
+    gameManager.locations[1]:insertCard(CardClass:new("P1", "LOCATION_1", "Zeus"))
+    gameManager.locations[1]:insertCard(CardClass:new("P1", "LOCATION_1", "Zeus"))
+    gameManager.locations[1]:insertCard(CardClass:new("P1", "LOCATION_1", "Zeus"))
+    gameManager.locations[1]:insertCard(CardClass:new("P1", "LOCATION_1", "Zeus"))
+
+
+    gameManager.locations[1]:repositionCards()
 
     return gameManager
 end
